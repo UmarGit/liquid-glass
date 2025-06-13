@@ -1,0 +1,101 @@
+body {
+  margin: 0;
+}
+
+main {
+  background-image: url(./background.png);
+  height: 100vh;
+  width: 100vw;
+
+  display: flex;
+  place-items: center;
+  place-content: center;
+
+  position: relative;
+}
+
+.glass {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(1px) saturate(180%);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15),
+    inset 4px -1px 10px rgba(255, 255, 255, 0.75),
+    inset 8px 4px 20px rgba(255, 255, 255, 0.25),
+    0 0 20px rgba(255, 255, 255, 0.1), 30px 100px 60px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+.glass-rounded {
+  border-radius: 1rem;
+}
+.glass-circle {
+  border-radius: 50%;
+}
+
+.btn-wrapper {
+  min-width: 100px;
+  min-height: 100px;
+
+  display: flex;
+  place-items: center;
+  place-content: center;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  height: 100px;
+  width: 100px;
+  border-radius: 200px;
+  font-size: 60px;
+
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+
+  display: flex;
+  place-items: center;
+  place-content: center;
+  overflow: hidden;
+
+  position: relative;
+}
+
+.btn-wrapper:hover .btn {
+  width: 600px;
+  height: 200px;
+  border-radius: 200px;
+}
+
+.btn-label {
+  opacity: 0;
+  width: 100%;
+  transform: scale(0.25);
+  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+  white-space: nowrap;
+}
+
+.btn-wrapper:hover .btn-label {
+  transform: scale(1);
+  opacity: 1;
+  transition-delay: 0.25s;
+}
+
+.btn-icon {
+  opacity: 1;
+  transition: all 0.5s 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
+  font-size: 50px;
+
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
+.btn-wrapper:hover .btn-icon {
+  opacity: 0;
+}
