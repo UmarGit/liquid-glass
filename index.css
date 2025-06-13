@@ -1,104 +1,269 @@
-body {
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  background: #0a0a0a;
+  color: #ffffff;
+  overflow-x: hidden;
+  min-height: 100vh;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 main {
-  background-image: url(./background.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-
-  height: 100vh;
-  width: 100vw;
-
-  display: flex;
-  place-items: center;
-  place-content: center;
-
+  min-height: 100vh;
+  padding: 80px 40px 40px;
   position: relative;
+}
+
+.content {
+  max-width: 600px;
+}
+
+.content h1 {
+  font-size: 4.5rem;
+  font-weight: 600;
+  line-height: 0.9;
+  margin-bottom: 2rem;
+  letter-spacing: -0.03em;
+}
+
+.content p {
+  font-size: 1.1rem;
+  color: #888;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.hint-arrow {
+  position: fixed;
+  bottom: 180px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #666;
+  font-size: 0.8rem;
+  font-weight: 400;
+  text-align: center;
+  line-height: 1.2;
+  animation: float 3s ease-in-out infinite;
+  transition: opacity 0.3s ease;
+  z-index: 50;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0px);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
+
+svg#filters {
+  position: absolute;
+  width: 0;
+  height: 0;
 }
 
 .glass {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(255, 255, 255, 0.05) 50%,
-    rgba(255, 255, 255, 0.02) 100%
-  );
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(1px) saturate(180%);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15),
-    inset 4px -1px 10px rgba(255, 255, 255, 0.75),
-    inset 8px 4px 20px rgba(255, 255, 255, 0.25),
-    0 0 20px rgba(255, 255, 255, 0.1), 30px 100px 60px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 80px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  backdrop-filter: url("#SphereMapTest");
+  -webkit-backdrop-filter: url("#SphereMapTest");
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 4px 20px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  cursor: grab;
+  z-index: 1000;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  will-change: transform;
+}
+
+.glass:hover {
+  transform: translateX(-50%) scale(1.02);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    0 6px 25px rgba(0, 0, 0, 0.4);
+}
+
+.glass.grabbing {
+  cursor: grabbing;
+  transform: translateX(-50%) scale(0.98);
+  transition: none;
+}
+
+.app-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.finder {
+  background: linear-gradient(135deg, #4a9eff 0%, #1976d2 100%);
+  color: white;
+}
+
+.apps {
+  background: linear-gradient(135deg, #ff6b6b 0%, #ff8e53 100%);
+  color: white;
+}
+
+.editor {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.calendar {
+  background: white;
+  color: #333;
+  flex-direction: column;
+  font-weight: 600;
+  padding: 6px;
+}
+
+.calendar i {
+  font-size: 16px;
+  color: #ff3b30;
+  margin-bottom: 8px;
+}
+
+.calendar-date {
+  font-size: 12px;
+  line-height: 1;
+  color: #333;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.description {
+  position: fixed;
+  bottom: 40px;
+  left: 40px;
+  right: 40px;
+  max-width: 500px;
   z-index: 10;
 }
 
-.glass-rounded {
-  border-radius: 1rem;
-}
-.glass-circle {
-  border-radius: 50%;
-}
-
-.btn-wrapper {
-  min-width: 100px;
-  min-height: 100px;
-
-  display: flex;
-  place-items: center;
-  place-content: center;
+.description p {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.4;
+  font-weight: 400;
+  user-select: text;
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
 }
 
-.btn {
-  padding: 10px 20px;
-  border: none;
-  color: white;
-  cursor: pointer;
-  height: 100px;
-  width: 100px;
-  border-radius: 200px;
-  font-size: 60px;
+/* Mobile */
+@media (max-width: 768px) {
+  main {
+    padding: 60px 20px 20px;
+  }
 
-  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  .content h1 {
+    font-size: 3.5rem;
+  }
 
-  display: flex;
-  place-items: center;
-  place-content: center;
-  overflow: hidden;
+  .content p {
+    font-size: 1rem;
+  }
 
-  position: relative;
+  .glass {
+    width: auto;
+    left: 20px;
+    right: 20px;
+    transform: none;
+    gap: 6px;
+    padding: 10px 12px;
+  }
+
+  .glass:hover {
+    transform: scale(1.01);
+  }
+
+  .glass.grabbing {
+    transform: scale(0.99);
+  }
+
+  .app-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+
+  .calendar i {
+    font-size: 14px;
+  }
+
+  .calendar-date {
+    font-size: 16px;
+    bottom: 6px;
+  }
+
+  .description {
+    position: static;
+    margin-top: 60px;
+    max-width: none;
+  }
+
+  .hint-arrow {
+    bottom: 140px;
+  }
 }
 
-.btn-wrapper:hover .btn {
-  width: 600px;
-  height: 200px;
-  border-radius: 200px;
-}
+@media (max-width: 480px) {
+  .content h1 {
+    font-size: 2.8rem;
+  }
 
-.btn-label {
-  opacity: 0;
-  width: 100%;
-  transform: scale(0.25);
-  transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-  white-space: nowrap;
-}
+  .glass {
+    height: 70px;
+    gap: 4px;
+    padding: 8px 10px;
+  }
 
-.btn-wrapper:hover .btn-label {
-  transform: scale(1);
-  opacity: 1;
-  transition-delay: 0.25s;
-}
+  .app-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 18px;
+  }
 
-.btn-icon {
-  opacity: 1;
-  transition: all 0.5s 0.25s cubic-bezier(0.165, 0.84, 0.44, 1);
-  font-size: 50px;
+  .calendar i {
+    font-size: 12px;
+  }
 
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
-}
-
-.btn-wrapper:hover .btn-icon {
-  opacity: 0;
+  .calendar-date {
+    font-size: 14px;
+    bottom: 5px;
+  }
 }

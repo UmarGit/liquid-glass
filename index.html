@@ -4,8 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Liquid Glass</title>
-
     <link rel="stylesheet" href="index.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -16,14 +21,156 @@
   </head>
   <body>
     <main>
-      <div class="background"></div>
+      <div class="content">
+        <h1>liquid<br />glass</h1>
+        <p>
+          a modern CSS effect that bends light and reality.<br />creating depth
+          through distortion.
+        </p>
+      </div>
 
-      <div class="btn-wrapper">
-        <button class="glass glass-rounded btn">
-          <i class="fa-brands fa-apple btn-icon"></i>
-          <div class="btn-label">Liquid Glass</div>
-        </button>
+      <div class="hint-arrow">
+        <svg width="24" height="40" viewBox="0 0 24 40" fill="none">
+          <path
+            d="M12 2L12 30M12 30L6 24M12 30L18 24"
+            stroke="#666"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <span>drag me<br />around</span>
+      </div>
+
+      <svg id="filters" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter
+            xmlns="http://www.w3.org/2000/svg"
+            id="SphereMapTest"
+            filterUnits="objectBoundingBox"
+            x="0"
+            y="0"
+            width="1"
+            height="1"
+          >
+            <feImage
+              result="Map"
+              xmlns:xlink="http://www.w3.org/1999/xlink"
+              xlink:href="./glass-map.png"
+            />
+            <feDisplacementMap
+              in="SourceGraphic"
+              in2="Map"
+              scale="100"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </defs>
+      </svg>
+
+      <div id="glass" class="glass">
+        <div class="app-icon finder">
+          <i class="fas fa-folder"></i>
+        </div>
+        <div class="app-icon apps">
+          <i class="fas fa-th"></i>
+        </div>
+        <div class="app-icon editor">
+          <i class="fas fa-code"></i>
+        </div>
+        <div class="app-icon calendar">
+          <i class="fas fa-calendar-alt"></i>
+          <div class="calendar-date">17</div>
+        </div>
+      </div>
+
+      <div class="description">
+        <p>
+          Liquid glass is a visual effect that simulates the optical properties
+          of curved glass surfaces. Using SVG displacement mapping and CSS
+          backdrop filters, it creates realistic distortion that warps whatever
+          lies beneath. The effect mimics how light bends through liquid or
+          curved glass, creating an immersive depth that transforms flat
+          interfaces into something more tactile and dimensional.
+        </p>
       </div>
     </main>
+
+    <script>
+      const glass = document.getElementById("glass");
+      const hint = document.querySelector(".hint-arrow");
+      let dragging = false;
+      let start = { x: 0, y: 0 };
+      let orig = { x: 0, y: 0 };
+      let hasInteracted = false;
+
+      // Prevent text selection during drag
+      glass.addEventListener("selectstart", (e) => e.preventDefault());
+      glass.addEventListener("dragstart", (e) => e.preventDefault());
+
+      glass.addEventListener("mousedown", (e) => {
+        e.preventDefault();
+        dragging = true;
+        glass.classList.add("grabbing");
+        start.x = e.clientX;
+        start.y = e.clientY;
+        orig.x = glass.offsetLeft;
+        orig.y = glass.offsetTop;
+
+        if (!hasInteracted) {
+          hasInteracted = true;
+          hint.style.opacity = "0";
+          setTimeout(() => (hint.style.display = "none"), 300);
+        }
+      });
+
+      document.addEventListener("mousemove", (e) => {
+        if (!dragging) return;
+        e.preventDefault();
+        const dx = e.clientX - start.x;
+        const dy = e.clientY - start.y;
+        glass.style.left = orig.x + dx + "px";
+        glass.style.top = orig.y + dy + "px";
+      });
+
+      document.addEventListener("mouseup", () => {
+        dragging = false;
+        glass.classList.remove("grabbing");
+      });
+
+      // Touch support for mobile
+      glass.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        dragging = true;
+        glass.classList.add("grabbing");
+        const touch = e.touches[0];
+        start.x = touch.clientX;
+        start.y = touch.clientY;
+        orig.x = glass.offsetLeft;
+        orig.y = glass.offsetTop;
+
+        if (!hasInteracted) {
+          hasInteracted = true;
+          hint.style.opacity = "0";
+          setTimeout(() => (hint.style.display = "none"), 300);
+        }
+      });
+
+      document.addEventListener("touchmove", (e) => {
+        if (!dragging) return;
+        e.preventDefault();
+        const touch = e.touches[0];
+        const dx = touch.clientX - start.x;
+        const dy = touch.clientY - start.y;
+        glass.style.left = orig.x + dx + "px";
+        glass.style.top = orig.y + dy + "px";
+      });
+
+      document.addEventListener("touchend", () => {
+        dragging = false;
+        glass.classList.remove("grabbing");
+      });
+    </script>
   </body>
 </html>
