@@ -198,23 +198,6 @@ svg#filters {
     font-size: 1rem;
   }
 
-  .glass {
-    width: auto;
-    left: 20px;
-    right: 20px;
-    transform: none;
-    gap: 6px;
-    padding: 10px 12px;
-  }
-
-  .glass:hover {
-    transform: scale(1.01);
-  }
-
-  .glass.grabbing {
-    transform: scale(0.99);
-  }
-
   .app-icon {
     width: 48px;
     height: 48px;
